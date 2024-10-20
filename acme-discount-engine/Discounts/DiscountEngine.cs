@@ -9,6 +9,8 @@ namespace acme_discount_engine.Discounts
         public bool LoyaltyCard { get; set; }
         public DateTime Time { get; set; } = DateTime.Now;
 
+        private Dictionary<string, int> _itemCountDictionary = new Dictionary<string, int>();
+
         private List<string> TwoForOneList = new List<string> { "Freddo" };
         private List<string> NoDiscount = new List<string> { "T-Shirt", "Keyboard", "Drill", "Chair" };
 
@@ -92,7 +94,7 @@ namespace acme_discount_engine.Discounts
             return itemTotal;
         }
 
-        public Dictionary<string, int> MakeItemCountDictionary(List<Item> items)
+        private void MakeItemCountDictionary(List<Item> items)
         {
             Dictionary<string, int> itemCountDictionary = new Dictionary<string, int>();
 
@@ -107,18 +109,20 @@ namespace acme_discount_engine.Discounts
                     itemCountDictionary.Add(item.Name, 1);
                 }
             }
-            foreach (KeyValuePair<string, int> kvp in itemCountDictionary)
-            {
-                Console.WriteLine("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
-            }
 
-            return itemCountDictionary;
+            _itemCountDictionary = itemCountDictionary;
         }
 
         public double ApplyDiscounts(List<Item> items)
         {
             items.Sort((x, y) => x.Name.CompareTo(y.Name));
 
+            MakeItemCountDictionary(items);
+
+            foreach (KeyValuePair<string, int> kvp in _itemCountDictionary)
+            {
+                Console.WriteLine("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
+            }
 
             doSomething(items);
 
