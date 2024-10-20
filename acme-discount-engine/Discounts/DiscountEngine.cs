@@ -14,21 +14,23 @@ namespace acme_discount_engine.Discounts
         private List<string> TwoForOneList = new List<string> { "Freddo" };
         private List<string> NoDiscount = new List<string> { "T-Shirt", "Keyboard", "Drill", "Chair" };
 
-
+        public bool isApplicableForDiscount(string itemName)
+        {
+            int itemAmount = _itemCountDictionary[itemName];
+            return itemAmount == 3 && TwoForOneList.Contains(itemName);
+        }
 
         public void doSomething(List<Item> items)
         {
-
             for (int i = 0; i < _itemCountDictionary.ToList().Count(); i++) {
                 // By changing the dictionary to a list I can still access key and value
                 string dictItemName = _itemCountDictionary.ToList()[i].Key;
                 int dictItemAmount = _itemCountDictionary.ToList()[i].Value;
 
-                if (dictItemAmount == 3 && TwoForOneList.Contains(dictItemName)) {
+                if (isApplicableForDiscount(dictItemName)) {
                     items[i].Price = 0;
                 }
             }
-
         }
 
         public double IsPerishable(List<Item> items) {
