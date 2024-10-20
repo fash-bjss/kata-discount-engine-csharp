@@ -54,7 +54,7 @@ namespace acme_discount_engine.Discounts
 
         private void IsPerishable() {
 
-            foreach (var item in _itemList)
+            foreach (Item item in _itemList)
             {
                 int daysUntilDate = (item.Date - DateTime.Today).Days;
                 if (DateTime.Today > item.Date) { daysUntilDate = -1; }
@@ -109,8 +109,11 @@ namespace acme_discount_engine.Discounts
 
         public double LoyaltyDiscountProcess(double totalBeforeLoyalty)
         {
-            bool isEligibleForLoyalty = LoyaltyCard && totalBeforeLoyalty >= 50.00;
-            double costWithLoyalty = totalBeforeLoyalty - totalBeforeLoyalty * 0.02;
+            double maxLimit = 50.0;
+            double loyaltyDiscountPercent = 0.02;
+
+            bool isEligibleForLoyalty = LoyaltyCard && totalBeforeLoyalty >= maxLimit;
+            double costWithLoyalty = totalBeforeLoyalty - totalBeforeLoyalty * loyaltyDiscountPercent;
 
             return isEligibleForLoyalty ? costWithLoyalty : totalBeforeLoyalty;
         }
