@@ -98,7 +98,6 @@ namespace acme_discount_engine.Discounts
                         {
                             item.Price -= item.Price * 0.05;
                         }
-
                     }
                 }
                 else
@@ -127,6 +126,14 @@ namespace acme_discount_engine.Discounts
             }
         }
 
+        public double LoyaltyDiscountProcess(double totalBeforeLoyalty)
+        {
+            bool isEligibleForLoyalty = LoyaltyCard && totalBeforeLoyalty >= 50.00;
+            double costWithLoyalty = totalBeforeLoyalty - totalBeforeLoyalty * 0.02;
+
+            return isEligibleForLoyalty ? costWithLoyalty : totalBeforeLoyalty;
+        }
+
         public double ApplyDiscounts(List<Item> items)
         {
             _itemList = items;
@@ -142,13 +149,9 @@ namespace acme_discount_engine.Discounts
             doSomething();
 
             double total = GetTotalPrice();
+            double finalTotal = LoyaltyDiscountProcess(total);
 
-            if (LoyaltyCard && total >= 50.00)
-            {
-                total -= total * 0.02;
-            }
-
-            return Math.Round(total, 2);
+            return Math.Round(finalTotal, 2);
         }
     }
 }
