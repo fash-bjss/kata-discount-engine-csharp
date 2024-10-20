@@ -18,24 +18,14 @@ namespace acme_discount_engine.Discounts
 
         public void doSomething(List<Item> items)
         {
-            int itemCount = 0;
-            string currentItem = string.Empty;
 
-            for (int i = 0; i < items.Count; i++)
-            {
-                if (items[i].Name != currentItem)
-                {
-                    currentItem = items[i].Name;
-                    itemCount = 1;
-                }
-                else
-                {
-                    itemCount++;
-                    if (itemCount == 3 && TwoForOneList.Contains(items[i].Name))
-                    {
-                        items[i].Price = 0.00;
-                        itemCount = 0;
-                    }
+            for (int i = 0; i < _itemCountDictionary.ToList().Count(); i++) {
+                // By changing the dictionary to a list I can still access key and value
+                string dictItemName = _itemCountDictionary.ToList()[i].Key;
+                int dictItemAmount = _itemCountDictionary.ToList()[i].Value;
+
+                if (dictItemAmount == 3 && TwoForOneList.Contains(dictItemName)) {
+                    items[i].Price = 0;
                 }
             }
 
@@ -118,11 +108,6 @@ namespace acme_discount_engine.Discounts
             items.Sort((x, y) => x.Name.CompareTo(y.Name));
 
             MakeItemCountDictionary(items);
-
-            foreach (KeyValuePair<string, int> kvp in _itemCountDictionary)
-            {
-                Console.WriteLine("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
-            }
 
             doSomething(items);
 
