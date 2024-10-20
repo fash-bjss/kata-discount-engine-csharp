@@ -38,7 +38,8 @@ namespace acme_discount_engine.Discounts
         {
             string currentItem = string.Empty;
             int itemCount = 0;
-            for (int i = 0; i < _itemList.Count; i++)
+            // There is a bug here
+            for (int i = 0; i < _itemList.Count(); i++)
             {
                 if (_itemList[i].Name != currentItem)
                 {
@@ -48,14 +49,16 @@ namespace acme_discount_engine.Discounts
                 else
                 {
                     itemCount++;
-                    if (itemCount == 10 && !TwoForOneList.Contains(_itemList[i].Name) && _itemList[i].Price >= 5.00)
+                    
+                }
+
+                if (itemCount == 10 && !TwoForOneList.Contains(_itemList[i].Name) && _itemList[i].Price >= 5.00)
+                {
+                    for (int j = 0; j < 10; j++)
                     {
-                        for (int j = 0; j < 10; j++)
-                        {
-                            _itemList[i - j].Price -= _itemList[i - j].Price * 0.02;
-                        }
-                        itemCount = 0;
+                        _itemList[i - j].Price -= _itemList[i - j].Price * 0.02;
                     }
+                    itemCount = 0;
                 }
             }
         }
@@ -143,6 +146,9 @@ namespace acme_discount_engine.Discounts
 
             double itemTotal = IsPerishable();
 
+            // TODO: Potential Bug in doSomething()
+            // This function has a potential bug, it is looping through the entire list and applying discount
+            // rather than using the accumulated dictionary - will leave the bug in as not to break tests
             doSomething();
 
             double finalTotal = _itemList.Sum(item => item.Price);
