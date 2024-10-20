@@ -20,7 +20,7 @@ namespace acme_discount_engine.Discounts
             return itemAmount == 3 && TwoForOneList.Contains(itemName);
         }
 
-        public void doSomething(List<Item> items)
+        public void CheckIfItemIsTwoForOne(List<Item> items)
         {
             for (int i = 0; i < _itemCountDictionary.ToList().Count(); i++) {
                 // By changing the dictionary to a list I can still access key and value
@@ -111,7 +111,7 @@ namespace acme_discount_engine.Discounts
 
             MakeItemCountDictionary(items);
 
-            doSomething(items);
+            CheckIfItemIsTwoForOne(items);
 
             double itemTotal = IsPerishable(items);
             
