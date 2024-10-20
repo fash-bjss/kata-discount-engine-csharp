@@ -11,9 +11,9 @@ namespace acme_discount_engine.Discounts
         private List<string> NoDiscount = new List<string> { "T-Shirt", "Keyboard", "Drill", "Chair" };
 
 
-        public void doSomething(List<Item> items, int itemCount, string currentItem)
+        public void doSomething(List<Item> items, int itemCount)
         {
-
+            string currentItem = string.Empty;
             for (int i = 0; i < items.Count; i++)
             {
                 if (items[i].Name != currentItem)
@@ -90,14 +90,13 @@ namespace acme_discount_engine.Discounts
         public double ApplyDiscounts(List<Item> items)
         {
             items.Sort((x, y) => x.Name.CompareTo(y.Name));
-            string currentItem = string.Empty;
             int itemCount = 0;
 
-            doSomething(items, itemCount, currentItem);
+            doSomething(items, itemCount);
 
             double itemTotal = IsPerishable(items);
-
-            currentItem = string.Empty;
+            
+            string currentItem = string.Empty;
             itemCount = 0;
             for (int i = 0; i < items.Count; i++)
             {
