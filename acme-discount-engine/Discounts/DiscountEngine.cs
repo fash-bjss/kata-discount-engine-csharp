@@ -33,6 +33,32 @@ namespace acme_discount_engine.Discounts
             }
         }
 
+        private void doSomething(List<Item> items)
+        {
+            string currentItem = string.Empty;
+            int itemCount = 0;
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (items[i].Name != currentItem)
+                {
+                    currentItem = items[i].Name;
+                    itemCount = 1;
+                }
+                else
+                {
+                    itemCount++;
+                    if (itemCount == 10 && !TwoForOneList.Contains(items[i].Name) && items[i].Price >= 5.00)
+                    {
+                        for (int j = 0; j < 10; j++)
+                        {
+                            items[i - j].Price -= items[i - j].Price * 0.02;
+                        }
+                        itemCount = 0;
+                    }
+                }
+            }
+        }
+
         public double IsPerishable(List<Item> items) {
             double itemTotal = 0.00;
             foreach (var item in items)
@@ -114,29 +140,8 @@ namespace acme_discount_engine.Discounts
             CheckIfItemIsTwoForOne(items);
 
             double itemTotal = IsPerishable(items);
-            
-            string currentItem = string.Empty;
-            int itemCount = 0;
-            for (int i = 0; i < items.Count; i++)
-            {
-                if (items[i].Name != currentItem)
-                {
-                    currentItem = items[i].Name;
-                    itemCount = 1;
-                }
-                else
-                {
-                    itemCount++;
-                    if (itemCount == 10 && !TwoForOneList.Contains(items[i].Name) && items[i].Price >= 5.00)
-                    {
-                        for (int j = 0; j < 10; j++)
-                        {
-                            items[i - j].Price -= items[i - j].Price * 0.02;
-                        }
-                        itemCount = 0;
-                    }
-                }
-            }
+
+            doSomething(items);
 
             double finalTotal = items.Sum(item => item.Price);
 
