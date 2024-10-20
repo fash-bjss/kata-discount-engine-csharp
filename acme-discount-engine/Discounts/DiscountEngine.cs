@@ -64,11 +64,16 @@ namespace acme_discount_engine.Discounts
             }
         }
 
-        private double IsPerishable() {
-            double itemTotal = 0.00;
+        private double GetTotalPrice()
+        {
+            double itemTotal = _itemList.Sum(item => item.Price);
+            return itemTotal;
+        }
+
+        private void IsPerishable() {
+
             foreach (var item in _itemList)
             {
-                itemTotal += item.Price;
                 int daysUntilDate = (item.Date - DateTime.Today).Days;
                 if (DateTime.Today > item.Date) { daysUntilDate = -1; }
 
@@ -114,7 +119,6 @@ namespace acme_discount_engine.Discounts
                 }
               
             }
-            return itemTotal;
         }
 
         public double ApplyDiscounts(List<Item> items)
@@ -124,8 +128,9 @@ namespace acme_discount_engine.Discounts
             _itemCountDictionary = itemCounter.SumAllItems(_itemList);
 
             CheckIfItemIsTwoForOne();
+            IsPerishable();
 
-            double itemTotal = IsPerishable();
+            double itemTotal = GetTotalPrice();
 
             // TODO: Potential Bug in doSomething()
             // This function has a potential bug, it is looping through the entire list and applying discount
