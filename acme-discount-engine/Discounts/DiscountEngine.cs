@@ -51,59 +51,58 @@ namespace acme_discount_engine.Discounts
             double itemTotal = _itemList.Sum(item => item.Price);
             return itemTotal;
         }
-
+        public int SetDaysUntil(Item item)
+        {
+            int daysUntilDate = (item.Date - DateTime.Today).Days;
+            if (DateTime.Today > item.Date) { daysUntilDate = -1; }
+            return daysUntilDate;
+        }
         private void IsPerishable() {
 
             foreach (Item item in _itemList)
             {
-                int daysUntilDate = (item.Date - DateTime.Today).Days;
-                if (DateTime.Today > item.Date) { daysUntilDate = -1; }
+                int daysUntilDate = SetDaysUntil(item);
 
-                if (item.IsPerishable)
+                if (item.IsPerishable && daysUntilDate == 0)
                 {
-                    if (daysUntilDate == 0)
+                    if (Time.Hour > 17)
                     {
-                        if (Time.Hour > 17)
-                        {
-                            item.Price -= item.Price * (!item.Name.Contains("(Meat)") ? 0.25 : 0.15);
-                        }
-                        else if (Time.Hour > 15)
-                        {
-                            item.Price -= item.Price * 0.15;
-                        }
-                        else if (Time.Hour > 11)
-                        {
-                            item.Price -= item.Price * 0.10;
-                        }
-                        else
-                        {
-                            item.Price -= item.Price * 0.05;
-                        }
+                        item.Price -= item.Price * (!item.Name.Contains("(Meat)") ? 0.25 : 0.15);
+                    }
+                    else if (Time.Hour > 15)
+                    {
+                        item.Price -= item.Price * 0.15;
+                    }
+                    else if (Time.Hour > 11)
+                    {
+                        item.Price -= item.Price * 0.10;
+                    }
+                    else
+                    {
+                        item.Price -= item.Price * 0.05;
                     }
                 }
-                else
+
+                if (!item.IsPerishable && !NoDiscount.Contains(item.Name))
                 {
-                    if (!NoDiscount.Contains(item.Name))
+
+                    if (daysUntilDate < 0)
                     {
-
-                        if(daysUntilDate < 0)
-                        {
-                            item.Price -= item.Price * 0.20;
-                        }
-
-                        else if(daysUntilDate < 6)
-                        {
-                            item.Price -= item.Price * 0.10;
-                        }
-
-                        else if (daysUntilDate < 11) 
-                        {
-                            item.Price -= item.Price * 0.05;
-                        }
-
+                        item.Price -= item.Price * 0.20;
                     }
+
+                    else if (daysUntilDate < 6)
+                    {
+                        item.Price -= item.Price * 0.10;
+                    }
+
+                    else if (daysUntilDate < 11)
+                    {
+                        item.Price -= item.Price * 0.05;
+                    }
+
                 }
-              
+
             }
         }
 
