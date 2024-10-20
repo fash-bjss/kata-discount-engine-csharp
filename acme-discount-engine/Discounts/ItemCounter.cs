@@ -7,7 +7,7 @@ namespace acme_discount_engine.Discounts
         public ItemCounter() 
         {
         }
-        public Dictionary<string, int> SumAllItems(List<Item> _itemList)
+        public Dictionary<string, int> AggregateItems(List<Item> _itemList)
         {
             Dictionary<string, int> itemCountDictionary = new Dictionary<string, int>();
 

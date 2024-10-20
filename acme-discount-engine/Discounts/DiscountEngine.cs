@@ -16,31 +16,12 @@ namespace acme_discount_engine.Discounts
         private List<string> TwoForOneList = new List<string> { "Freddo" };
         private List<string> NoDiscount = new List<string> { "T-Shirt", "Keyboard", "Drill", "Chair" };
 
-        public bool isApplicableForDiscount(string itemName)
-        {
-            int itemAmount = _itemCountDictionary[itemName];
-            return itemAmount == 3 && TwoForOneList.Contains(itemName);
-        }
-
-        private void CheckIfItemIsTwoForOne()
-        {
-            for (int i = 0; i < _itemCountDictionary.ToList().Count(); i++) {
-                // By changing the dictionary to a list I can still access key and value
-                string dictItemName = _itemCountDictionary.ToList()[i].Key;
-                int dictItemAmount = _itemCountDictionary.ToList()[i].Value;
-
-                if (isApplicableForDiscount(dictItemName)) {
-                    _itemList[i].Price = 0;
-                }
-            }
-        }
 
         // TODO: Potential bug in this doSomething function
-        private void doSomething()
+        private void BuggyDiscountFunction()
         {
             string currentItem = string.Empty;
             int itemCount = 0;
-            // There is a bug here
             for (int i = 0; i < _itemList.Count(); i++)
             {
                 if (_itemList[i].Name != currentItem)
@@ -51,7 +32,7 @@ namespace acme_discount_engine.Discounts
                 else
                 {
                     itemCount++;
-                    
+
                 }
 
                 if (itemCount == 10 && !TwoForOneList.Contains(_itemList[i].Name) && _itemList[i].Price >= 5.00)
@@ -138,15 +119,18 @@ namespace acme_discount_engine.Discounts
         {
             _itemList = items;
             _itemList.Sort((x, y) => x.Name.CompareTo(y.Name));
-            _itemCountDictionary = itemCounter.SumAllItems(_itemList);
+            _itemCountDictionary = itemCounter.AggregateItems(_itemList);
+            
+            IDiscount twoForOne = new TwoForOne(_itemCountDictionary);
 
-            CheckIfItemIsTwoForOne();
+            _itemList = twoForOne.CalculateDiscount(_itemList);
+
             IsPerishable();
 
             // TODO: Potential Bug in doSomething()
             // This function has a potential bug, it is looping through the entire list and applying discount
             // rather than using the accumulated dictionary - will leave the bug in as not to break tests
-            doSomething();
+            BuggyDiscountFunction();
 
             double total = GetTotalPrice();
             double finalTotal = LoyaltyDiscountProcess(total);
