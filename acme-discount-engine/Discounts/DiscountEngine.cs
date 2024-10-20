@@ -10,11 +10,9 @@ namespace acme_discount_engine.Discounts
         private List<string> TwoForOneList = new List<string> { "Freddo" };
         private List<string> NoDiscount = new List<string> { "T-Shirt", "Keyboard", "Drill", "Chair" };
 
-        public double ApplyDiscounts(List<Item> items)
+
+        public void doSomething(List<Item> items, int itemCount, string currentItem)
         {
-            items.Sort((x, y) => x.Name.CompareTo(y.Name));
-            string currentItem = string.Empty;
-            int itemCount = 0;
 
             for (int i = 0; i < items.Count; i++)
             {
@@ -33,6 +31,17 @@ namespace acme_discount_engine.Discounts
                     }
                 }
             }
+
+        }
+
+        public double ApplyDiscounts(List<Item> items)
+        {
+            items.Sort((x, y) => x.Name.CompareTo(y.Name));
+            string currentItem = string.Empty;
+            int itemCount = 0;
+
+            doSomething(items, itemCount, currentItem);
+
 
             double itemTotal = 0.00;
             foreach (var item in items)
