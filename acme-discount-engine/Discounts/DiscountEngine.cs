@@ -17,7 +17,7 @@ namespace acme_discount_engine.Discounts
         private List<string> NoDiscount = new List<string> { "T-Shirt", "Keyboard", "Drill", "Chair" };
 
 
-        // TODO: Potential bug in this doSomething function
+        // TODO: Potential bug in this function
         private void BuggyDiscountFunction()
         {
             string currentItem = string.Empty;
