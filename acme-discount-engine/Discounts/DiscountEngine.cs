@@ -47,11 +47,6 @@ namespace acme_discount_engine.Discounts
             }
         }
 
-        private double GetTotalPrice()
-        {
-            double itemTotal = itemList.Sum(item => item.Price);
-            return itemTotal;
-        }
         public int SetDaysUntil(Item item)
         {
             int daysUntilDate = (item.Date - DateTime.Today).Days;
@@ -116,6 +111,12 @@ namespace acme_discount_engine.Discounts
             double costWithLoyalty = totalBeforeLoyalty - totalBeforeLoyalty * loyaltyDiscountPercent;
 
             return isEligibleForLoyalty ? costWithLoyalty : totalBeforeLoyalty;
+        }
+
+        private double GetTotalPrice()
+        {
+            double itemTotal = itemList.Sum(item => item.Price);
+            return itemTotal;
         }
 
         public double ApplyDiscounts(List<Item> items)
