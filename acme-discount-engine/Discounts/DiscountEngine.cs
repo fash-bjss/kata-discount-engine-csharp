@@ -35,6 +35,7 @@ namespace acme_discount_engine.Discounts
             }
         }
 
+        // TODO: Potential bug in this doSomething function
         private void doSomething()
         {
             string currentItem = string.Empty;
@@ -77,44 +78,49 @@ namespace acme_discount_engine.Discounts
                 int daysUntilDate = (item.Date - DateTime.Today).Days;
                 if (DateTime.Today > item.Date) { daysUntilDate = -1; }
 
-                if (!item.IsPerishable)
+                if (item.IsPerishable)
                 {
-                    if (!NoDiscount.Contains(item.Name))
+                    if (daysUntilDate == 0)
                     {
-                        if (daysUntilDate >= 6 && daysUntilDate <= 10)
+                        if (Time.Hour > 17)
                         {
-                            item.Price -= item.Price * 0.05;
+                            item.Price -= item.Price * (!item.Name.Contains("(Meat)") ? 0.25 : 0.15);
                         }
-                        else if (daysUntilDate >= 0 && daysUntilDate <= 5)
+                        else if (Time.Hour > 15)
+                        {
+                            item.Price -= item.Price * 0.15;
+                        }
+                        else if (Time.Hour > 11)
                         {
                             item.Price -= item.Price * 0.10;
                         }
-                        else if (daysUntilDate < 0)
+                        else
                         {
-                            item.Price -= item.Price * 0.20;
+                            item.Price -= item.Price * 0.05;
                         }
+
                     }
                 }
                 else
                 {
-                    if (daysUntilDate == 0)
+                    if (!NoDiscount.Contains(item.Name))
                     {
-                        if (Time.Hour >= 0 && Time.Hour < 12)
+
+                        if(daysUntilDate < 0)
                         {
-                            item.Price -= item.Price * 0.05;
+                            item.Price -= item.Price * 0.20;
                         }
-                        else if (Time.Hour >= 12 && Time.Hour < 16)
+
+                        else if(daysUntilDate < 6)
                         {
                             item.Price -= item.Price * 0.10;
                         }
-                        else if (Time.Hour >= 16 && Time.Hour < 18)
+
+                        else if (daysUntilDate < 11) 
                         {
-                            item.Price -= item.Price * 0.15;
+                            item.Price -= item.Price * 0.05;
                         }
-                        else if (Time.Hour >= 18)
-                        {
-                            item.Price -= item.Price * (!item.Name.Contains("(Meat)") ? 0.25 : 0.15);
-                        }
+
                     }
                 }
               
