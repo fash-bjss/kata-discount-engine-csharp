@@ -21,7 +21,7 @@ namespace acme_discount_engine.Discounts
             return itemAmount == 3 && TwoForOneList.Contains(itemName);
         }
 
-        public void CheckIfItemIsTwoForOne(List<Item> items)
+        private void CheckIfItemIsTwoForOne()
         {
             for (int i = 0; i < _itemCountDictionary.ToList().Count(); i++) {
                 // By changing the dictionary to a list I can still access key and value
@@ -29,30 +29,30 @@ namespace acme_discount_engine.Discounts
                 int dictItemAmount = _itemCountDictionary.ToList()[i].Value;
 
                 if (isApplicableForDiscount(dictItemName)) {
-                    items[i].Price = 0;
+                    _itemList[i].Price = 0;
                 }
             }
         }
 
-        private void doSomething(List<Item> items)
+        private void doSomething()
         {
             string currentItem = string.Empty;
             int itemCount = 0;
-            for (int i = 0; i < items.Count; i++)
+            for (int i = 0; i < _itemList.Count; i++)
             {
-                if (items[i].Name != currentItem)
+                if (_itemList[i].Name != currentItem)
                 {
-                    currentItem = items[i].Name;
+                    currentItem = _itemList[i].Name;
                     itemCount = 1;
                 }
                 else
                 {
                     itemCount++;
-                    if (itemCount == 10 && !TwoForOneList.Contains(items[i].Name) && items[i].Price >= 5.00)
+                    if (itemCount == 10 && !TwoForOneList.Contains(_itemList[i].Name) && _itemList[i].Price >= 5.00)
                     {
                         for (int j = 0; j < 10; j++)
                         {
-                            items[i - j].Price -= items[i - j].Price * 0.02;
+                            _itemList[i - j].Price -= _itemList[i - j].Price * 0.02;
                         }
                         itemCount = 0;
                     }
@@ -60,9 +60,9 @@ namespace acme_discount_engine.Discounts
             }
         }
 
-        public double IsPerishable(List<Item> items) {
+        private double IsPerishable() {
             double itemTotal = 0.00;
-            foreach (var item in items)
+            foreach (var item in _itemList)
             {
                 itemTotal += item.Price;
                 int daysUntilDate = (item.Date - DateTime.Today).Days;
@@ -113,11 +113,11 @@ namespace acme_discount_engine.Discounts
             return itemTotal;
         }
 
-        private void MakeItemCountDictionary(List<Item> items)
+        private void MakeItemCountDictionary()
         {
             Dictionary<string, int> itemCountDictionary = new Dictionary<string, int>();
 
-            foreach (Item item in items)
+            foreach (Item item in _itemList)
             {
                 if (itemCountDictionary.ContainsKey(item.Name))
                 {
@@ -137,13 +137,13 @@ namespace acme_discount_engine.Discounts
             _itemList = items;
             _itemList.Sort((x, y) => x.Name.CompareTo(y.Name));
 
-            MakeItemCountDictionary(_itemList);
+            MakeItemCountDictionary();
 
-            CheckIfItemIsTwoForOne(_itemList);
+            CheckIfItemIsTwoForOne();
 
-            double itemTotal = IsPerishable(_itemList);
+            double itemTotal = IsPerishable();
 
-            doSomething(_itemList);
+            doSomething();
 
             double finalTotal = _itemList.Sum(item => item.Price);
 
