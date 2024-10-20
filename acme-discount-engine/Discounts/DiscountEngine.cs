@@ -13,6 +13,7 @@ namespace acme_discount_engine.Discounts
         private List<string> NoDiscount = new List<string> { "T-Shirt", "Keyboard", "Drill", "Chair" };
 
 
+
         public void doSomething(List<Item> items)
         {
             int itemCount = 0;
@@ -91,10 +92,8 @@ namespace acme_discount_engine.Discounts
             return itemTotal;
         }
 
-        public double ApplyDiscounts(List<Item> items)
+        public Dictionary<string, int> MakeItemCountDictionary(List<Item> items)
         {
-            items.Sort((x, y) => x.Name.CompareTo(y.Name));
-
             Dictionary<string, int> itemCountDictionary = new Dictionary<string, int>();
 
             foreach (Item item in items)
@@ -112,6 +111,14 @@ namespace acme_discount_engine.Discounts
             {
                 Console.WriteLine("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
             }
+
+            return itemCountDictionary;
+        }
+
+        public double ApplyDiscounts(List<Item> items)
+        {
+            items.Sort((x, y) => x.Name.CompareTo(y.Name));
+
 
             doSomething(items);
 
