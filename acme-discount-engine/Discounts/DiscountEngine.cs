@@ -14,8 +14,7 @@ namespace acme_discount_engine.Discounts
         private ItemCounter itemCounter = new ItemCounter();
 
         IDiscount twoForOneDiscount = new TwoForOne();
-        private List<string> NoDiscount = new List<string> { "T-Shirt", "Keyboard", "Drill", "Chair" };
-
+        IDiscount noDiscount = new NoDiscount();
 
         // TODO: Potential bug in this function
         private void BuggyDiscountFunction()
@@ -85,7 +84,7 @@ namespace acme_discount_engine.Discounts
                     }
                 }
 
-                if (!item.IsPerishable && !NoDiscount.Contains(item.Name))
+                if (!item.IsPerishable && !noDiscount.GetDiscountList().Contains(item.Name))
                 {
 
                     if (daysUntilDate < 0)
