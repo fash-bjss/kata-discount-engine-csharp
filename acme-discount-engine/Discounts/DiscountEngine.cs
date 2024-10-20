@@ -13,7 +13,7 @@ namespace acme_discount_engine.Discounts
         private List<Item> _itemList = new List<Item>();
         private ItemCounter itemCounter = new ItemCounter();
 
-        private List<string> TwoForOneList = new List<string> { "Freddo" };
+        IDiscount twoForOneDiscount = new TwoForOne();
         private List<string> NoDiscount = new List<string> { "T-Shirt", "Keyboard", "Drill", "Chair" };
 
 
@@ -22,6 +22,8 @@ namespace acme_discount_engine.Discounts
         {
             string currentItem = string.Empty;
             int itemCount = 0;
+            List<string> TwoForOneList = twoForOneDiscount.GetDiscountList();
+
             for (int i = 0; i < _itemList.Count(); i++)
             {
                 if (_itemList[i].Name != currentItem)
@@ -122,10 +124,8 @@ namespace acme_discount_engine.Discounts
             _itemList = items;
             _itemList.Sort((x, y) => x.Name.CompareTo(y.Name));
             _itemCountDictionary = itemCounter.AggregateItems(_itemList);
-            
-            IDiscount twoForOne = new TwoForOne(_itemCountDictionary);
 
-            _itemList = twoForOne.CalculateDiscount(_itemList);
+            _itemList = twoForOneDiscount.CalculateDiscount(_itemList, _itemCountDictionary);
 
             IsPerishable();
 
