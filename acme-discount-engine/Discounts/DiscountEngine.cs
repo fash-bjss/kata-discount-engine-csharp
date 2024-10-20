@@ -10,6 +10,7 @@ namespace acme_discount_engine.Discounts
         public DateTime Time { get; set; } = DateTime.Now;
 
         private Dictionary<string, int> _itemCountDictionary = new Dictionary<string, int>();
+        public List<Item> _itemList = new List<Item>();
 
         private List<string> TwoForOneList = new List<string> { "Freddo" };
         private List<string> NoDiscount = new List<string> { "T-Shirt", "Keyboard", "Drill", "Chair" };
@@ -133,17 +134,18 @@ namespace acme_discount_engine.Discounts
 
         public double ApplyDiscounts(List<Item> items)
         {
-            items.Sort((x, y) => x.Name.CompareTo(y.Name));
+            _itemList = items;
+            _itemList.Sort((x, y) => x.Name.CompareTo(y.Name));
 
-            MakeItemCountDictionary(items);
+            MakeItemCountDictionary(_itemList);
 
-            CheckIfItemIsTwoForOne(items);
+            CheckIfItemIsTwoForOne(_itemList);
 
-            double itemTotal = IsPerishable(items);
+            double itemTotal = IsPerishable(_itemList);
 
-            doSomething(items);
+            doSomething(_itemList);
 
-            double finalTotal = items.Sum(item => item.Price);
+            double finalTotal = _itemList.Sum(item => item.Price);
 
             if (LoyaltyCard && itemTotal >= 50.00)
             {
