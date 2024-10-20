@@ -141,7 +141,7 @@ namespace acme_discount_engine.Discounts
             // rather than using the accumulated dictionary - will leave the bug in as not to break tests
             doSomething();
 
-            double total = _itemList.Sum(item => item.Price);
+            double total = GetTotalPrice();
 
             if (LoyaltyCard && total >= 50.00)
             {
