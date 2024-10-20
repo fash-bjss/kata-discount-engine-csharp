@@ -136,21 +136,19 @@ namespace acme_discount_engine.Discounts
             CheckIfItemIsTwoForOne();
             IsPerishable();
 
-            double itemTotal = GetTotalPrice();
-
             // TODO: Potential Bug in doSomething()
             // This function has a potential bug, it is looping through the entire list and applying discount
             // rather than using the accumulated dictionary - will leave the bug in as not to break tests
             doSomething();
 
-            double finalTotal = _itemList.Sum(item => item.Price);
+            double total = _itemList.Sum(item => item.Price);
 
-            if (LoyaltyCard && itemTotal >= 50.00)
+            if (LoyaltyCard && total >= 50.00)
             {
-                finalTotal -= finalTotal * 0.02;
+                total -= total * 0.02;
             }
 
-            return Math.Round(finalTotal, 2);
+            return Math.Round(total, 2);
         }
     }
 }
