@@ -9,8 +9,8 @@ namespace acme_discount_engine.Discounts
         public bool LoyaltyCard { get; set; }
         public DateTime Time { get; set; } = DateTime.Now;
 
-        private Dictionary<string, int> _itemCountDictionary = new Dictionary<string, int>();
-        private List<Item> _itemList = new List<Item>();
+        private Dictionary<string, int> itemCountDictionary = new Dictionary<string, int>();
+        private List<Item> itemList = new List<Item>();
         private ItemCounter itemCounter = new ItemCounter();
 
         IDiscount twoForOneDiscount = new TwoForOne();
@@ -23,11 +23,11 @@ namespace acme_discount_engine.Discounts
             int itemCount = 0;
             List<string> TwoForOneList = twoForOneDiscount.GetDiscountList();
 
-            for (int i = 0; i < _itemList.Count(); i++)
+            for (int i = 0; i < itemList.Count(); i++)
             {
-                if (_itemList[i].Name != currentItem)
+                if (itemList[i].Name != currentItem)
                 {
-                    currentItem = _itemList[i].Name;
+                    currentItem = itemList[i].Name;
                     itemCount = 1;
                 }
                 else
@@ -36,11 +36,11 @@ namespace acme_discount_engine.Discounts
 
                 }
 
-                if (itemCount == 10 && !TwoForOneList.Contains(_itemList[i].Name) && _itemList[i].Price >= 5.00)
+                if (itemCount == 10 && !TwoForOneList.Contains(itemList[i].Name) && itemList[i].Price >= 5.00)
                 {
                     for (int j = 0; j < 10; j++)
                     {
-                        _itemList[i - j].Price -= _itemList[i - j].Price * 0.02;
+                        itemList[i - j].Price -= itemList[i - j].Price * 0.02;
                     }
                     itemCount = 0;
                 }
@@ -49,7 +49,7 @@ namespace acme_discount_engine.Discounts
 
         private double GetTotalPrice()
         {
-            double itemTotal = _itemList.Sum(item => item.Price);
+            double itemTotal = itemList.Sum(item => item.Price);
             return itemTotal;
         }
         public int SetDaysUntil(Item item)
@@ -60,7 +60,7 @@ namespace acme_discount_engine.Discounts
         }
         private void IsPerishable() {
 
-            foreach (Item item in _itemList)
+            foreach (Item item in itemList)
             {
                 int daysUntilDate = SetDaysUntil(item);
 
@@ -120,11 +120,11 @@ namespace acme_discount_engine.Discounts
 
         public double ApplyDiscounts(List<Item> items)
         {
-            _itemList = items;
-            _itemList.Sort((x, y) => x.Name.CompareTo(y.Name));
-            _itemCountDictionary = itemCounter.AggregateItems(_itemList);
+            itemList = items;
+            itemList.Sort((x, y) => x.Name.CompareTo(y.Name));
+            itemCountDictionary = itemCounter.AggregateItems(itemList);
 
-            _itemList = twoForOneDiscount.CalculateDiscount(_itemList, _itemCountDictionary);
+            itemList = twoForOneDiscount.CalculateDiscount(itemList, itemCountDictionary);
 
             IsPerishable();
 
