@@ -1,4 +1,6 @@
 ﻿using AcmeSharedModels;
+using System.Collections.Generic;
+using System.Data;
 
 namespace acme_discount_engine.Discounts
 {
@@ -15,6 +17,23 @@ namespace acme_discount_engine.Discounts
         {
             int itemCount = 0;
             string currentItem = string.Empty;
+
+            Dictionary<string, int> itemDictionary = new Dictionary<string, int>();
+
+            foreach (Item item in items)
+            {
+                if (itemDictionary.ContainsKey(item.Name))
+                {
+                    itemDictionary[item.Name]++;
+                } else
+                {
+                    itemDictionary.Add(item.Name, 1);
+                }
+            }
+            foreach (KeyValuePair<string, int> kvp in itemDictionary)
+            {
+                Console.WriteLine("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
+            }
             for (int i = 0; i < items.Count; i++)
             {
                 if (items[i].Name != currentItem)
