@@ -34,21 +34,13 @@ namespace acme_discount_engine.Discounts
 
         }
 
-        public double ApplyDiscounts(List<Item> items)
-        {
-            items.Sort((x, y) => x.Name.CompareTo(y.Name));
-            string currentItem = string.Empty;
-            int itemCount = 0;
-
-            doSomething(items, itemCount, currentItem);
-
-
+        public double IsPerishable(List<Item> items) {
             double itemTotal = 0.00;
             foreach (var item in items)
             {
                 itemTotal += item.Price;
                 int daysUntilDate = (item.Date - DateTime.Today).Days;
-                if(DateTime.Today > item.Date) { daysUntilDate = -1; }
+                if (DateTime.Today > item.Date) { daysUntilDate = -1; }
 
                 if (!item.IsPerishable)
                 {
@@ -90,7 +82,20 @@ namespace acme_discount_engine.Discounts
                         }
                     }
                 }
+              
             }
+            return itemTotal;
+        }
+
+        public double ApplyDiscounts(List<Item> items)
+        {
+            items.Sort((x, y) => x.Name.CompareTo(y.Name));
+            string currentItem = string.Empty;
+            int itemCount = 0;
+
+            doSomething(items, itemCount, currentItem);
+
+            double itemTotal = IsPerishable(items);
 
             currentItem = string.Empty;
             itemCount = 0;
