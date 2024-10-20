@@ -10,7 +10,8 @@ namespace acme_discount_engine.Discounts
         public DateTime Time { get; set; } = DateTime.Now;
 
         private Dictionary<string, int> _itemCountDictionary = new Dictionary<string, int>();
-        public List<Item> _itemList = new List<Item>();
+        private List<Item> _itemList = new List<Item>();
+        private ItemCounter itemCounter = new ItemCounter();
 
         private List<string> TwoForOneList = new List<string> { "Freddo" };
         private List<string> NoDiscount = new List<string> { "T-Shirt", "Keyboard", "Drill", "Chair" };
@@ -116,31 +117,11 @@ namespace acme_discount_engine.Discounts
             return itemTotal;
         }
 
-        private void MakeItemCountDictionary()
-        {
-            Dictionary<string, int> itemCountDictionary = new Dictionary<string, int>();
-
-            foreach (Item item in _itemList)
-            {
-                if (itemCountDictionary.ContainsKey(item.Name))
-                {
-                    itemCountDictionary[item.Name]++;
-                }
-                else
-                {
-                    itemCountDictionary.Add(item.Name, 1);
-                }
-            }
-
-            _itemCountDictionary = itemCountDictionary;
-        }
-
         public double ApplyDiscounts(List<Item> items)
         {
             _itemList = items;
             _itemList.Sort((x, y) => x.Name.CompareTo(y.Name));
-
-            MakeItemCountDictionary();
+            _itemCountDictionary = itemCounter.SumAllItems(_itemList);
 
             CheckIfItemIsTwoForOne();
 
