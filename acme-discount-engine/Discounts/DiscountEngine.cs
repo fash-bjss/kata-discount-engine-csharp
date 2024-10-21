@@ -24,8 +24,8 @@ namespace acme_discount_engine.Discounts
 
         public double ApplyDiscounts(List<Item> items)
         {
-            Discounter itemDiscounter = new Discounter(itemListDiscounts);
-            itemDiscounter.CalculateDiscount(items, Time);
+            Discounter itemDiscounter = new Discounter(itemListDiscounts, Time, items);
+            itemDiscounter.CalculateDiscount();
 
             double total = GetTotalPrice(items);
             double finalTotal = new LoyaltyCardSystem(LoyaltyCard).Proccess(total);
