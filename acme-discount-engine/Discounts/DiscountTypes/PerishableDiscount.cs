@@ -1,7 +1,7 @@
 ﻿using acme_discount_engine.Discounts.Interfaces;
 using AcmeSharedModels;
 
-namespace acme_discount_engine.Discounts
+namespace acme_discount_engine.Discounts.DiscountTypes
 {
     public class PerishableDiscount : IDiscount
     {

@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace acme_discount_engine.Discounts
+namespace acme_discount_engine.Discounts.DiscountTypes
 {
     public class TwoForOne : IDiscount
     {
-    
+
         public TwoForOne()
         {
         }
