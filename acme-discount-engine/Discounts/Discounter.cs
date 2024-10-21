@@ -2,11 +2,11 @@
 
 namespace acme_discount_engine.Discounts
 {
-    public class ItemCounter :IDiscount
+    public class Discounter :IDiscount
     {
         IDiscount TwoForOneDiscount { get; set; }  = new TwoForOne();
         IDiscount BulkDiscount { get; set; } = new BulkDiscount();
-        public ItemCounter() 
+        public Discounter() 
         {
         }
         public void CalculateDiscount(List<Item> itemList)

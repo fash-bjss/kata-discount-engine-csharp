@@ -39,9 +39,7 @@ namespace acme_discount_engine.Discounts
                 {
                     itemList[i].Price = discountValue;
                 }
-
             }
-
         }
 
         public List<string> GetDiscountList()

@@ -11,7 +11,7 @@ namespace acme_discount_engine.Discounts
 
         private Dictionary<string, int> itemCountDictionary = new Dictionary<string, int>();
         private List<Item> itemList = new List<Item>();
-        private ItemCounter itemCounter = new ItemCounter();
+        private Discounter itemDiscounter = new Discounter();
 
         IDiscount twoForOneDiscount = new TwoForOne();
         IDiscount noDiscount = new NoDiscount();
@@ -91,7 +91,7 @@ namespace acme_discount_engine.Discounts
         {
             itemList = items;
             itemList.Sort((x, y) => x.Name.CompareTo(y.Name));
-            itemCounter.CalculateDiscount(itemList);
+            itemDiscounter.CalculateDiscount(itemList);
 
             IsPerishable();
 
