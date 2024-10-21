@@ -14,18 +14,6 @@ namespace acme_discount_engine.Discounts
         private Discounter itemDiscounter = new Discounter();
         public ItemDiscountDictionary itemListDiscounts = new ItemDiscountDictionary();
 
-
-        public double LoyaltyDiscountProcess(double totalBeforeLoyalty)
-        {
-            double maxLimit = 50.0;
-            double loyaltyDiscountPercent = 0.02;
-
-            bool isEligibleForLoyalty = LoyaltyCard && totalBeforeLoyalty >= maxLimit;
-            double costWithLoyalty = totalBeforeLoyalty - totalBeforeLoyalty * loyaltyDiscountPercent;
-
-            return isEligibleForLoyalty ? costWithLoyalty : totalBeforeLoyalty;
-        }
-
         private double GetTotalPrice()
         {
             double itemTotal = itemList.Sum(item => item.Price);
@@ -41,7 +29,7 @@ namespace acme_discount_engine.Discounts
             itemDiscounter.CalculateDiscount(itemList, itemListDiscounts, Time);
 
             double total = GetTotalPrice();
-            double finalTotal = LoyaltyDiscountProcess(total);
+            double finalTotal = new LoyaltyCardSystem(LoyaltyCard).Proccess(total);
 
             return Math.Round(finalTotal, 2);
         }
