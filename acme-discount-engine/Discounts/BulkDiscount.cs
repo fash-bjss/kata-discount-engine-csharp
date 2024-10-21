@@ -11,7 +11,7 @@ namespace acme_discount_engine.Discounts
     {
         // Keep two for one list here for the time being
         List<string> TwoForOneList { get; set; } = new TwoForOne().GetDiscountList();
-        public List<Item> CalculateDiscount(List<Item> itemList)
+        public void CalculateDiscount(List<Item> itemList)
         {
             int itemQuantityLimit = 10;
             double discountValue = 0.02;
@@ -38,7 +38,6 @@ namespace acme_discount_engine.Discounts
                     }
                 }
             }
-            return itemList;
         }
 
         public List<string> GetDiscountList()

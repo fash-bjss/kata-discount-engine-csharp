@@ -16,7 +16,7 @@ namespace acme_discount_engine.Discounts
         {
         }
 
-        public List<Item> CalculateDiscount(List<Item> itemList)
+        public void CalculateDiscount(List<Item> itemList)
         {
             int itemQuantityLimit = 3;
             int discountValue = 0;
@@ -42,7 +42,6 @@ namespace acme_discount_engine.Discounts
 
             }
 
-            return itemList;
         }
 
         public List<string> GetDiscountList()

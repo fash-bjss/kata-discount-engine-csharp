@@ -91,7 +91,7 @@ namespace acme_discount_engine.Discounts
         {
             itemList = items;
             itemList.Sort((x, y) => x.Name.CompareTo(y.Name));
-            itemCounter.AggregateItems(itemList);
+            itemCounter.CalculateDiscount(itemList);
 
             IsPerishable();
 

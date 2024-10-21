@@ -4,7 +4,7 @@ namespace acme_discount_engine.Discounts
 {
     public interface IDiscount
     {
-        public List<Item> CalculateDiscount(List<Item> itemList);
+        public void CalculateDiscount(List<Item> itemList);
 
         public List<string> GetDiscountList();
 
