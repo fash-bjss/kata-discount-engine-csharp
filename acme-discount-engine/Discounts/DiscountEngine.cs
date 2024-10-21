@@ -93,8 +93,6 @@ namespace acme_discount_engine.Discounts
             itemList.Sort((x, y) => x.Name.CompareTo(y.Name));
             itemCountDictionary = itemCounter.AggregateItems(itemList);
 
-            itemList = twoForOneDiscount.CalculateDiscount(itemList, itemCountDictionary);
-
             IsPerishable();
 
             double total = GetTotalPrice();
