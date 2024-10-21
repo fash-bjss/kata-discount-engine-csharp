@@ -9,6 +9,8 @@ namespace acme_discount_engine.Discounts
     public class LoyaltyCardSystem
     {
         private bool _loyaltyCard;
+        private double maxLimit { get; } = 50.0;
+        private double loyaltyDiscountPercent { get; } = 0.02;
         public LoyaltyCardSystem(bool LoyaltyCard) {
         
             _loyaltyCard = LoyaltyCard;
@@ -17,9 +19,6 @@ namespace acme_discount_engine.Discounts
 
         public double Proccess(double totalBeforeLoyalty)
         {
-            double maxLimit = 50.0;
-            double loyaltyDiscountPercent = 0.02;
-
             bool isEligibleForLoyalty = _loyaltyCard && totalBeforeLoyalty >= maxLimit;
             double costWithLoyalty = totalBeforeLoyalty - totalBeforeLoyalty * loyaltyDiscountPercent;
 
