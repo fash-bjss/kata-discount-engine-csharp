@@ -34,10 +34,10 @@ namespace acme_discount_engine.Discounts
 
         public double ApplyDiscounts(List<Item> items)
         {
+            itemList = items;
             itemListDiscounts.Add("TwoForOne", ["Freddo"]);
             itemListDiscounts.Add("NoDiscount", ["T-Shirt", "Keyboard", "Drill", "Chair"]);
 
-            itemList = items;
             itemDiscounter.CalculateDiscount(itemList, itemListDiscounts, Time);
 
             double total = GetTotalPrice();
