@@ -5,6 +5,7 @@ namespace acme_discount_engine.Discounts
     public class ItemCounter
     {
         IDiscount TwoForOneDiscount { get; set; }  = new TwoForOne();
+        IDiscount BulkDiscount { get; set; } = new BulkDiscount();
         public ItemCounter() 
         {
         }
@@ -23,6 +24,7 @@ namespace acme_discount_engine.Discounts
                 }
 
                 itemList = TwoForOneDiscount.CalculateDiscount(itemList, itemCountDictionary, i);
+                itemList = BulkDiscount.CalculateDiscount(itemList, itemCountDictionary, i);
 
             }
 
