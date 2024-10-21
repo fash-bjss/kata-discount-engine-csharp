@@ -91,7 +91,6 @@ namespace acme_discount_engine.Discounts
             itemListDiscounts.Add("NoDiscount", ["T-Shirt", "Keyboard", "Drill", "Chair"]);
 
             itemList = items;
-            itemList.Sort((x, y) => x.Name.CompareTo(y.Name));
             itemDiscounter.CalculateDiscount(itemList, itemListDiscounts);
 
             IsPerishable();

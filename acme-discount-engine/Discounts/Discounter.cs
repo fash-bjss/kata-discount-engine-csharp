@@ -11,6 +11,7 @@ namespace acme_discount_engine.Discounts
         }
         public void CalculateDiscount(List<Item> itemList, ItemDiscountDictionary itemListDiscounts)
         {
+            itemList.Sort((x, y) => x.Name.CompareTo(y.Name));
 
             TwoForOneDiscount.CalculateDiscount(itemList, itemListDiscounts);
             BulkDiscount.CalculateDiscount(itemList, itemListDiscounts);
