@@ -11,17 +11,31 @@ namespace acme_discount_engine.Discounts
     {
         // Keep two for one list here for the time being
         List<string> TwoForOneList { get; set; } = new TwoForOne().GetDiscountList();
-        public List<Item> CalculateDiscount(List<Item> itemList, Dictionary<string, int> itemCountDictionary, int current)
+        public List<Item> CalculateDiscount(List<Item> itemList)
         {
             int itemQuantityLimit = 10;
-            double bulkDiscountPriceLimit = 5.00;
             double discountValue = 0.02;
-            bool isBulkDiscount = itemCountDictionary[itemList[current].Name] == itemQuantityLimit && !TwoForOneList.Contains(itemList[current].Name) && itemList[current].Price >= bulkDiscountPriceLimit;
-            if (isBulkDiscount)
+            double bulkDiscountPriceLimit = 5.00;
+            Dictionary<string, int> itemCountDictionary = new Dictionary<string, int>();
+
+            for (int i = 0; i < itemList.Count; i++)
             {
-                for (int next = 0; next < 10; next++)
+                if (itemCountDictionary.ContainsKey(itemList[i].Name))
                 {
-                    itemList[current - next].Price -= itemList[current - next].Price * discountValue;
+                    itemCountDictionary[itemList[i].Name]++;
+                }
+                else
+                {
+                    itemCountDictionary.Add(itemList[i].Name, 1);
+                }
+
+                bool isBulkDiscount = itemCountDictionary[itemList[i].Name] == itemQuantityLimit && !TwoForOneList.Contains(itemList[i].Name) && itemList[i].Price >= bulkDiscountPriceLimit;
+                if (isBulkDiscount)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        itemList[i - j].Price -= itemList[i - j].Price * discountValue;
+                    }
                 }
             }
             return itemList;

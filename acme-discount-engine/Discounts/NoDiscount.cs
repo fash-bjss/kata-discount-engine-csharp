@@ -10,7 +10,7 @@ namespace acme_discount_engine.Discounts
     public class NoDiscount : IDiscount
     {
         private List<string> NoDiscountList = new List<string> { "T-Shirt", "Keyboard", "Drill", "Chair" };
-        public List<Item> CalculateDiscount(List<Item> itemList, Dictionary<string, int> itemCountDictionary, int current)
+        public List<Item> CalculateDiscount(List<Item> itemList)
         {
             throw new NotImplementedException();
         }
