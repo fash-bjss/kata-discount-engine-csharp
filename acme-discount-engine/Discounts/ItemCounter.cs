@@ -21,6 +21,7 @@ namespace acme_discount_engine.Discounts
                 {
                     itemCountDictionary.Add(itemList[i].Name, 1);
                 }
+
                 itemList = TwoForOneDiscount.CalculateDiscount(itemList, itemCountDictionary, i);
 
             }

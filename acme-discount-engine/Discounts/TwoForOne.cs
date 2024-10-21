@@ -18,26 +18,27 @@ namespace acme_discount_engine.Discounts
 
         public List<Item> CalculateDiscount(List<Item> itemList, Dictionary<string, int> itemCountDictionary, int current)
         {
-   
+
             // Two for one discount
-            bool isTwoForOneDiscount = itemCountDictionary[itemList[current].Name] == 3 && TwoForOneList.Contains(itemList[current].Name);
+            int twoForOne = 3;
+            bool isTwoForOneDiscount = itemCountDictionary[itemList[current].Name] == twoForOne && TwoForOneList.Contains(itemList[current].Name);
 
             if (isTwoForOneDiscount)
             {
                 itemList[current].Price = 0;
             }
 
-            // Is not two for one discount
-            bool isNotTwoForOneDiscount = itemCountDictionary[itemList[current].Name] == 10 && !TwoForOneList.Contains(itemList[current].Name) && itemList[current].Price >= 5.00;
-            if (isNotTwoForOneDiscount)
+            // Is bulk discount
+            double bulDiscountPriceLimit = 5.00;
+            int bulDiscountQuantityLimit = 10;
+            bool isBulkDiscount = itemCountDictionary[itemList[current].Name] == bulDiscountQuantityLimit && !TwoForOneList.Contains(itemList[current].Name) && itemList[current].Price >= bulDiscountPriceLimit;
+            if (isBulkDiscount)
             {
                 for (int next = 0; next < 10; next++)
                 {
                     itemList[current - next].Price -= itemList[current - next].Price * 0.02;
                 }
             }
-
-           
 
             return itemList;
         }
