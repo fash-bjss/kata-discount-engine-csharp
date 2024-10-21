@@ -1,6 +1,6 @@
 ﻿using AcmeSharedModels;
 
-namespace acme_discount_engine.Discounts
+namespace acme_discount_engine.Discounts.Interfaces
 {
     public interface IDiscount
     {

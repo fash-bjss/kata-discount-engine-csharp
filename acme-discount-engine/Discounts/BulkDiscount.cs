@@ -1,4 +1,5 @@
-﻿using AcmeSharedModels;
+﻿using acme_discount_engine.Discounts.Interfaces;
+using AcmeSharedModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,5 @@
-﻿using AcmeSharedModels;
+﻿using acme_discount_engine.Discounts.Interfaces;
+using AcmeSharedModels;
 
 namespace acme_discount_engine.Discounts
 {
