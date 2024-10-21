@@ -8,9 +8,13 @@ namespace acme_discount_engine.Discounts
     {
         public bool LoyaltyCard { get; set; }
         public DateTime Time { get; set; } = DateTime.Now;
+        private ItemDiscountDictionary itemListDiscounts { get; set; } = new ItemDiscountDictionary();
 
-        private Discounter itemDiscounter = new Discounter();
-        private ItemDiscountDictionary itemListDiscounts = new ItemDiscountDictionary();
+        public DiscountEngine() 
+        {
+            itemListDiscounts.Add("TwoForOne", ["Freddo"]);
+            itemListDiscounts.Add("NoDiscount", ["T-Shirt", "Keyboard", "Drill", "Chair"]);
+        }
 
         private double GetTotalPrice(List<Item> itemList)
         {
@@ -20,9 +24,7 @@ namespace acme_discount_engine.Discounts
 
         public double ApplyDiscounts(List<Item> items)
         {
-            itemListDiscounts.Add("TwoForOne", ["Freddo"]);
-            itemListDiscounts.Add("NoDiscount", ["T-Shirt", "Keyboard", "Drill", "Chair"]);
-
+            Discounter itemDiscounter = new Discounter(itemListDiscounts);
             itemDiscounter.CalculateDiscount(items, itemListDiscounts, Time);
 
             double total = GetTotalPrice(items);

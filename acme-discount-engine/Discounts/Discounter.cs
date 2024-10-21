@@ -8,18 +8,20 @@ namespace acme_discount_engine.Discounts
     {
         IDiscount TwoForOneDiscount { get; set; }  = new TwoForOne();
         IDiscount BulkDiscount { get; set; } = new BulkDiscount();
-
         IDiscount PerishableDiscount { get; set; } = new PerishableDiscount();
-        public Discounter() 
+
+        ItemDiscountDictionary _itemDiscountDictionary { get; set; }
+        public Discounter(ItemDiscountDictionary itemDiscountList) 
         {
+            _itemDiscountDictionary = itemDiscountList;
         }
         public void CalculateDiscount(List<Item> itemList, ItemDiscountDictionary itemDiscounts, DateTime Time)
         {
             itemList.Sort((x, y) => x.Name.CompareTo(y.Name));
 
-            TwoForOneDiscount.CalculateDiscount(itemList, itemDiscounts);
-            BulkDiscount.CalculateDiscount(itemList, itemDiscounts);
-            PerishableDiscount.CalculateDiscount(itemList, itemDiscounts, Time);
+            TwoForOneDiscount.CalculateDiscount(itemList, _itemDiscountDictionary);
+            BulkDiscount.CalculateDiscount(itemList, _itemDiscountDictionary);
+            PerishableDiscount.CalculateDiscount(itemList, _itemDiscountDictionary, Time);
 
         }
 
