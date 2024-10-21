@@ -7,6 +7,7 @@ namespace acme_discount_engine.Discounts.Interfaces
         public void CalculateDiscount(List<Item> itemList);
         public void CalculateDiscount(List<Item> itemList, ItemDiscountDictionary itemDiscounts);
         public void CalculateDiscount(List<Item> itemList, ItemDiscountDictionary itemDiscounts, DateTime Time);
+        public void CalculateDiscount(List<Item> itemList, DateTime Time);
 
 
     }

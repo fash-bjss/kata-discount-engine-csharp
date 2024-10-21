@@ -15,7 +15,7 @@ namespace acme_discount_engine.Discounts
         {
             _itemDiscountDictionary = itemDiscountList;
         }
-        public void CalculateDiscount(List<Item> itemList, ItemDiscountDictionary itemDiscounts, DateTime Time)
+        public void CalculateDiscount(List<Item> itemList, DateTime Time)
         {
             itemList.Sort((x, y) => x.Name.CompareTo(y.Name));
 
@@ -31,6 +31,11 @@ namespace acme_discount_engine.Discounts
         }
 
         public void CalculateDiscount(List<Item> itemList)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CalculateDiscount(List<Item> itemList, ItemDiscountDictionary itemDiscounts, DateTime Time)
         {
             throw new NotImplementedException();
         }

@@ -66,5 +66,10 @@ namespace acme_discount_engine.Discounts.DiscountTypes
         {
             throw new NotImplementedException();
         }
+
+        public void CalculateDiscount(List<Item> itemList, DateTime Time)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
