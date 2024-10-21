@@ -4,15 +4,14 @@ namespace acme_discount_engine.Discounts
 {
     public class PerishableDiscount : IDiscount
     {
-        public DateTime Time { get; set; } = DateTime.Now;
-
-        public void CalculateDiscount(List<Item> itemList, ItemDiscountDictionary itemDiscounts)
+        public void CalculateDiscount(List<Item> itemList, ItemDiscountDictionary itemDiscounts, DateTime Time)
         {
             itemList.Sort((x, y) => x.Name.CompareTo(y.Name));
 
             foreach (Item item in itemList)
             {
-                int daysUntilDate = SetDaysUntil(item);
+                int daysUntilDate = (item.Date - DateTime.Today).Days;
+                if (DateTime.Today > item.Date) { daysUntilDate = -1; }
 
                 if (item.IsPerishable && daysUntilDate == 0)
                 {
@@ -56,17 +55,14 @@ namespace acme_discount_engine.Discounts
 
             }
         }
-        public int SetDaysUntil(Item item)
-        {
-            int daysUntilDate = (item.Date - DateTime.Today).Days;
-            if (DateTime.Today > item.Date) { daysUntilDate = -1; }
-            return daysUntilDate;
-        }
         public void CalculateDiscount(List<Item> itemList)
         {
             throw new NotImplementedException();
         }
 
-
+        public void CalculateDiscount(List<Item> itemList, ItemDiscountDictionary itemDiscounts)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

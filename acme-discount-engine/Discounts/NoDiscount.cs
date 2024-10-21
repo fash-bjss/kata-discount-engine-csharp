@@ -14,11 +14,16 @@ namespace acme_discount_engine.Discounts
         {
             throw new NotImplementedException();
         }
+        public void CalculateDiscount(List<Item> itemList, ItemDiscountDictionary itemDiscounts, DateTime Time)
+        {
+            throw new NotImplementedException();
+        }
 
         public void CalculateDiscount(List<Item> itemList, ItemDiscountDictionary itemDiscounts)
         {
             throw new NotImplementedException();
         }
+
 
         public List<string> GetDiscountList()
         {

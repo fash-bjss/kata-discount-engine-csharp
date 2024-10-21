@@ -40,10 +40,14 @@ namespace acme_discount_engine.Discounts
             }
         }
 
-        public void CalculateDiscount(List<Item> itemList)
+        public void CalculateDiscount(List<Item> itemList, ItemDiscountDictionary itemDiscounts, DateTime Time)
         {
             throw new NotImplementedException();
         }
 
+        public void CalculateDiscount(List<Item> itemList)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
