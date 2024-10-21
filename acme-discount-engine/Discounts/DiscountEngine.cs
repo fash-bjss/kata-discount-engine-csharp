@@ -10,7 +10,7 @@ namespace acme_discount_engine.Discounts
         public DateTime Time { get; set; } = DateTime.Now;
 
         private Discounter itemDiscounter = new Discounter();
-        public ItemDiscountDictionary itemListDiscounts = new ItemDiscountDictionary();
+        private ItemDiscountDictionary itemListDiscounts = new ItemDiscountDictionary();
 
         private double GetTotalPrice(List<Item> itemList)
         {
