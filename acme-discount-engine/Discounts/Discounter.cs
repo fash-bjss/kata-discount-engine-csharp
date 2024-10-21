@@ -11,13 +11,13 @@ namespace acme_discount_engine.Discounts
         public Discounter() 
         {
         }
-        public void CalculateDiscount(List<Item> itemList, ItemDiscountDictionary itemListDiscounts, DateTime Time)
+        public void CalculateDiscount(List<Item> itemList, ItemDiscountDictionary itemDiscounts, DateTime Time)
         {
             itemList.Sort((x, y) => x.Name.CompareTo(y.Name));
 
-            TwoForOneDiscount.CalculateDiscount(itemList, itemListDiscounts);
-            BulkDiscount.CalculateDiscount(itemList, itemListDiscounts);
-            PerishableDiscount.CalculateDiscount(itemList, itemListDiscounts, Time);
+            TwoForOneDiscount.CalculateDiscount(itemList, itemDiscounts);
+            BulkDiscount.CalculateDiscount(itemList, itemDiscounts);
+            PerishableDiscount.CalculateDiscount(itemList, itemDiscounts, Time);
 
         }
 

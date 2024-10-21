@@ -14,7 +14,7 @@ namespace acme_discount_engine.Discounts
         {
         }
 
-        public void CalculateDiscount(List<Item> itemList, ItemDiscountDictionary itemListDiscounts)
+        public void CalculateDiscount(List<Item> itemList, ItemDiscountDictionary itemDiscounts)
         {
             int itemQuantityLimit = 3;
             int discountValue = 0;
@@ -31,7 +31,7 @@ namespace acme_discount_engine.Discounts
                     itemCountDictionary.Add(itemList[i].Name, 1);
                 }
 
-                bool isTwoForOneDiscount = itemCountDictionary[itemList[i].Name] == itemQuantityLimit && itemListDiscounts.discounts["TwoForOne"].Contains(itemList[i].Name);
+                bool isTwoForOneDiscount = itemCountDictionary[itemList[i].Name] == itemQuantityLimit && itemDiscounts.discounts["TwoForOne"].Contains(itemList[i].Name);
 
                 if (isTwoForOneDiscount)
                 {
