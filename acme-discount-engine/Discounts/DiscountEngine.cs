@@ -16,37 +16,6 @@ namespace acme_discount_engine.Discounts
         IDiscount twoForOneDiscount = new TwoForOne();
         IDiscount noDiscount = new NoDiscount();
 
-        // TODO: Potential bug in this function
-        private void BuggyDiscountFunction()
-        {
-            string currentItem = string.Empty;
-            int itemCount = 0;
-            List<string> TwoForOneList = twoForOneDiscount.GetDiscountList();
-
-            for (int i = 0; i < itemList.Count(); i++)
-            {
-                if (itemList[i].Name != currentItem)
-                {
-                    currentItem = itemList[i].Name;
-                    itemCount = 1;
-                }
-                else
-                {
-                    itemCount++;
-
-                }
-
-                if (itemCount == 10 && !TwoForOneList.Contains(itemList[i].Name) && itemList[i].Price >= 5.00)
-                {
-                    for (int j = 0; j < 10; j++)
-                    {
-                        itemList[i - j].Price -= itemList[i - j].Price * 0.02;
-                    }
-                    itemCount = 0;
-                }
-            }
-        }
-
         public int SetDaysUntil(Item item)
         {
             int daysUntilDate = (item.Date - DateTime.Today).Days;
@@ -101,7 +70,6 @@ namespace acme_discount_engine.Discounts
 
             }
         }
-
         public double LoyaltyDiscountProcess(double totalBeforeLoyalty)
         {
             double maxLimit = 50.0;
@@ -128,11 +96,6 @@ namespace acme_discount_engine.Discounts
             itemList = twoForOneDiscount.CalculateDiscount(itemList, itemCountDictionary);
 
             IsPerishable();
-
-            // TODO: Potential Bug in doSomething()
-            // This function has a potential bug, it is looping through the entire list and applying discount
-            // rather than using the accumulated dictionary - will leave the bug in as not to break tests
-            BuggyDiscountFunction();
 
             double total = GetTotalPrice();
             double finalTotal = LoyaltyDiscountProcess(total);

@@ -11,15 +11,26 @@ namespace acme_discount_engine.Discounts
         {
             Dictionary<string, int> itemCountDictionary = new Dictionary<string, int>();
 
-            foreach (Item item in _itemList)
+            for(int i = 0;  i < _itemList.Count; i++)
             {
-                if (itemCountDictionary.ContainsKey(item.Name))
+                if (itemCountDictionary.ContainsKey(_itemList[i].Name))
                 {
-                    itemCountDictionary[item.Name]++;
+                    itemCountDictionary[_itemList[i].Name]++;
+                } else
+                {
+                    itemCountDictionary.Add(_itemList[i].Name, 1);
                 }
-                else
+
+                // Should be abstracted into another discount class
+                IDiscount twoForone = new TwoForOne();
+                List<string> two4oneList = twoForone.GetDiscountList();
+
+                if (itemCountDictionary[_itemList[i].Name] == 10 && !two4oneList.Contains(_itemList[i].Name) && _itemList[i].Price >= 5.00)
                 {
-                    itemCountDictionary.Add(item.Name, 1);
+                    for (int j = 0; j < 10; j++)
+                    {
+                        _itemList[i - j].Price -= _itemList[i - j].Price * 0.02;
+                    }
                 }
             }
 
