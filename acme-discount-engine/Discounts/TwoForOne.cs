@@ -10,13 +10,11 @@ namespace acme_discount_engine.Discounts
     public class TwoForOne : IDiscount
     {
     
-        private List<string> TwoForOneList = new List<string> { "Freddo" };
-
         public TwoForOne()
         {
         }
 
-        public void CalculateDiscount(List<Item> itemList)
+        public void CalculateDiscount(List<Item> itemList, ItemDiscountDictionary itemListDiscounts)
         {
             int itemQuantityLimit = 3;
             int discountValue = 0;
@@ -33,7 +31,7 @@ namespace acme_discount_engine.Discounts
                     itemCountDictionary.Add(itemList[i].Name, 1);
                 }
 
-                bool isTwoForOneDiscount = itemCountDictionary[itemList[i].Name] == itemQuantityLimit && TwoForOneList.Contains(itemList[i].Name);
+                bool isTwoForOneDiscount = itemCountDictionary[itemList[i].Name] == itemQuantityLimit && itemListDiscounts.discounts["TwoForOne"].Contains(itemList[i].Name);
 
                 if (isTwoForOneDiscount)
                 {
@@ -42,9 +40,9 @@ namespace acme_discount_engine.Discounts
             }
         }
 
-        public List<string> GetDiscountList()
+        public void CalculateDiscount(List<Item> itemList)
         {
-            return TwoForOneList;
+            throw new NotImplementedException();
         }
 
     }

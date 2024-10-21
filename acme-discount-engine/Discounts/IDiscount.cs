@@ -6,7 +6,8 @@ namespace acme_discount_engine.Discounts
     {
         public void CalculateDiscount(List<Item> itemList);
 
-        public List<string> GetDiscountList();
+        public void CalculateDiscount(List<Item> itemList, ItemDiscountDictionary itemDiscounts);
+
 
     }
 }

@@ -11,10 +11,8 @@ namespace acme_discount_engine.Discounts
 
         private Dictionary<string, int> itemCountDictionary = new Dictionary<string, int>();
         private List<Item> itemList = new List<Item>();
+        public ItemDiscountDictionary itemListDiscounts = new ItemDiscountDictionary();
         private Discounter itemDiscounter = new Discounter();
-
-        IDiscount twoForOneDiscount = new TwoForOne();
-        IDiscount noDiscount = new NoDiscount();
 
         public int SetDaysUntil(Item item)
         {
@@ -48,7 +46,7 @@ namespace acme_discount_engine.Discounts
                     }
                 }
 
-                if (!item.IsPerishable && !noDiscount.GetDiscountList().Contains(item.Name))
+                if (!item.IsPerishable && !itemListDiscounts.discounts["NoDiscount"].Contains(item.Name))
                 {
 
                     if (daysUntilDate < 0)
@@ -89,9 +87,12 @@ namespace acme_discount_engine.Discounts
 
         public double ApplyDiscounts(List<Item> items)
         {
+            itemListDiscounts.Add("TwoForOne", ["Freddo"]);
+            itemListDiscounts.Add("NoDiscount", ["T-Shirt", "Keyboard", "Drill", "Chair"]);
+
             itemList = items;
             itemList.Sort((x, y) => x.Name.CompareTo(y.Name));
-            itemDiscounter.CalculateDiscount(itemList);
+            itemDiscounter.CalculateDiscount(itemList, itemListDiscounts);
 
             IsPerishable();
 

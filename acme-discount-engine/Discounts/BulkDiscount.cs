@@ -9,9 +9,7 @@ namespace acme_discount_engine.Discounts
 {
     public class BulkDiscount : IDiscount
     {
-        // Keep two for one list here for the time being
-        List<string> TwoForOneList { get; set; } = new TwoForOne().GetDiscountList();
-        public void CalculateDiscount(List<Item> itemList)
+        public void CalculateDiscount(List<Item> itemList, ItemDiscountDictionary itemDiscounts)
         {
             int itemQuantityLimit = 10;
             double discountValue = 0.02;
@@ -29,7 +27,7 @@ namespace acme_discount_engine.Discounts
                     itemCountDictionary.Add(itemList[i].Name, 1);
                 }
 
-                bool isBulkDiscount = itemCountDictionary[itemList[i].Name] == itemQuantityLimit && !TwoForOneList.Contains(itemList[i].Name) && itemList[i].Price >= bulkDiscountPriceLimit;
+                bool isBulkDiscount = itemCountDictionary[itemList[i].Name] == itemQuantityLimit && !itemDiscounts.discounts["TwoForOne"].Contains(itemList[i].Name) && itemList[i].Price >= bulkDiscountPriceLimit;
                 if (isBulkDiscount)
                 {
                     for (int j = 0; j < 10; j++)
@@ -38,6 +36,11 @@ namespace acme_discount_engine.Discounts
                     }
                 }
             }
+        }
+
+        public void CalculateDiscount(List<Item> itemList)
+        {
+            throw new NotImplementedException();
         }
 
         public List<string> GetDiscountList()
