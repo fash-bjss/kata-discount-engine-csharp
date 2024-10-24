@@ -20,9 +20,9 @@ namespace acme_discount_engine.Discounts
         public double Proccess(double totalBeforeLoyalty)
         {
             bool isEligibleForLoyalty = _loyaltyCard && totalBeforeLoyalty >= maxLimit;
-            double costWithLoyalty = totalBeforeLoyalty - totalBeforeLoyalty * loyaltyDiscountPercent;
+            double totalAfterLoyalty = totalBeforeLoyalty - totalBeforeLoyalty * loyaltyDiscountPercent;
 
-            return isEligibleForLoyalty ? costWithLoyalty : totalBeforeLoyalty;
+            return isEligibleForLoyalty ? totalAfterLoyalty : totalBeforeLoyalty;
         }
     }
 }
