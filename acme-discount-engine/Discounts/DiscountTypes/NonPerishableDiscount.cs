@@ -3,7 +3,7 @@ using AcmeSharedModels;
 
 namespace acme_discount_engine.Discounts.DiscountTypes
 {
-    public class PerishableDiscount : IDiscount
+    internal class NonPerishableDiscount : IDiscount
     {
         public void CalculateDiscount(List<Item> itemList, ItemDiscountDictionary itemDiscounts, DateTime Time)
         {
@@ -14,40 +14,37 @@ namespace acme_discount_engine.Discounts.DiscountTypes
                 int daysUntilDate = (item.Date - DateTime.Today).Days;
                 if (DateTime.Today > item.Date) { daysUntilDate = -1; }
 
-                if (item.IsPerishable)
+                if (!item.IsPerishable && !itemDiscounts.discounts["NoDiscount"].Contains(item.Name))
                 {
-                    if (Time.Hour > 17)
+
+                    if (daysUntilDate < 0)
                     {
-                        item.Price -= item.Price * (!item.Name.Contains("(Meat)") ? 0.25 : 0.15);
+                        item.Price -= item.Price * 0.20;
                     }
-                    else if (Time.Hour > 15)
-                    {
-                        item.Price -= item.Price * 0.15;
-                    }
-                    else if (Time.Hour > 11)
+
+                    else if (daysUntilDate < 6)
                     {
                         item.Price -= item.Price * 0.10;
                     }
-                    else
+
+                    else if (daysUntilDate < 11)
                     {
                         item.Price -= item.Price * 0.05;
                     }
+
                 }
 
             }
         }
-
         public void CalculateDiscount(List<Item> itemList, ItemDiscountDictionary itemDiscounts)
         {
             throw new NotImplementedException();
         }
 
-
         public void CalculateDiscount(List<Item> itemList, DateTime Time)
         {
             throw new NotImplementedException();
         }
-
         public void CalculateDiscount(List<Item> itemList)
         {
             throw new NotImplementedException();
@@ -57,5 +54,6 @@ namespace acme_discount_engine.Discounts.DiscountTypes
         {
             throw new NotImplementedException();
         }
+
     }
 }

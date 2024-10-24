@@ -9,6 +9,7 @@ namespace acme_discount_engine.Discounts
         IDiscount TwoForOneDiscount { get; set; } = new TwoForOne();
         IDiscount BulkDiscount { get; set; } = new BulkDiscount();
         IDiscount PerishableDiscount { get; set; } = new PerishableDiscount();
+        IDiscount NonPerishableDiscount { get; set; } = new NonPerishableDiscount();
 
         private ItemDiscountDictionary _itemDiscountDictionary { get; set; }
         private List<Item> _itemList {get; set;}
@@ -27,6 +28,7 @@ namespace acme_discount_engine.Discounts
             TwoForOneDiscount.CalculateDiscount(_itemList, _itemDiscountDictionary);
             BulkDiscount.CalculateDiscount(_itemList, _itemDiscountDictionary);
             PerishableDiscount.CalculateDiscount(_itemList, _itemDiscountDictionary, _time);
+            NonPerishableDiscount.CalculateDiscount(_itemList, _itemDiscountDictionary, _time);
         }
         public void CalculateDiscount(List<Item> itemList)
         {
